@@ -5,7 +5,7 @@
     <title>Mappa Concettuale Dinamica</title>
     <script src="https://d3js.org/d3.v6.min.js"></script>
     <style>
-        .node {
+        .node circle {
             stroke: #fff;
             stroke-width: 1.5px;
         }
@@ -29,7 +29,10 @@
         text {
             font-family: sans-serif;
             font-size: 12px;
-            pointer-events: none;
+            fill: black;
+            background-color: white;
+            padding: 2px;
+            border-radius: 3px;
         }
     </style>
 </head>
@@ -70,7 +73,7 @@
         var color = d3.scaleOrdinal(d3.schemeCategory10);
 
         var simulation = d3.forceSimulation()
-            .force("link", d3.forceLink().id(function(d) { return d.id; }))
+            .force("link", d3.forceLink().id(function(d) { return d.id; }).distance(200))
             .force("charge", d3.forceManyBody().strength(-500))
             .force("center", d3.forceCenter(width / 2, height / 2));
 
@@ -105,14 +108,14 @@
             });
 
         node.append("circle")
-            .attr("r", 10)
+            .attr("r", 20)  // Aumentato il raggio dei nodi
             .attr("fill", function(d) { return color(d.group); });
 
         node.append("title")
             .text(function(d) { return d.id + " (" + d.group + ")"; });
 
         node.append("text")
-            .attr("dy", -15)
+            .attr("dy", -25)  // Aumentato il margine tra il nodo e l'etichetta
             .attr("text-anchor", "middle")
             .text(function(d) { return d.id; });
 
